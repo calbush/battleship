@@ -1,5 +1,20 @@
-import { testForJest } from "./index";
+import {Ship} from "./index"
 
-test("jest test", ()=> {
-    expect(testForJest("Caleb")).toBe("What's up Caleb")
+test("test whether calling the hit method on a ship works", () =>{
+    let boaty = Ship(4)
+    boaty.hit()
+    expect(boaty.hits).toBe(1)
 })
+
+test("Check whether the ship is sunk or not", ()=> {
+    let titanic = Ship(3)
+    titanic.hit()
+    titanic.hit()
+    titanic.hit()
+    expect(titanic.isSunk()).toBe(true)
+})
+
+test("Factory function to create a ship return the correct length", () =>{
+    expect(Ship(7).length).toBe(7)
+})
+
