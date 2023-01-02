@@ -9,6 +9,13 @@ const shipProto = {
 }
 
 
+const gameboardProto = {
+    placeShip(ship, coords){
+        this.ships.push({ship,coords})
+    }
+}
+
+
 //Factory function for creating a ship
 export const Ship = (length) => {
     let ship = Object.create(shipProto)
@@ -17,3 +24,8 @@ export const Ship = (length) => {
     return ship
 }
 
+export const Gameboard = () => {
+    let board = Object.create(gameboardProto)
+    board.ships = []
+    return board
+}
