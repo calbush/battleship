@@ -43,8 +43,17 @@ const gameboardProto = {
     }
 }
 
+const playerProto = {
+    attack(enemyBoard, coords){
+        return {enemyBoard, coords}
+    }
+}
 
-//Factory function for creating a ship
+export const Player = ()=>{
+    let playa = Object.create(playerProto)
+    return playa
+}
+
 export const Ship = (length) => {
     let ship = Object.create(shipProto)
     ship.length = length
@@ -60,4 +69,32 @@ export const Gameboard = () => {
     board.misses = []
     board.allShipsSunk = false
     return board
+}
+
+
+export const createComputer = () => {
+    const computer = Player()
+    computer.attacks = []
+    computer.compAttack = (board)=>{
+        let successfulAttack = false
+        //while computer hasn't already attacked 
+        generateSuccessfulAttack: while(!successfulAttack){
+            let attemptedX = Math.round(Math.random() * 10)
+            let attemptedY = Math.round(Math.random() * 10)
+            let attemptedCompAttack = ([attemptedX, attemptedY])
+            let attemptedCompAttackStr = attemptedCompAttack.toString()
+            //check if computer has already made an attack at square
+            for(let i = 0; i < computer.attacks.length; i++){
+                if(computer.attacks[i].toString() === attemptedCompAttackStr){
+                    continue generateSuccessfulAttack
+                }
+            }
+            computer.attacks.push(attemptedCompAttack)
+            successfulAttack = true
+            computer.attack(board, attemptedCompAttack)
+        }
+        successfulAttack = false
+        return computer.attacks[(computer.attacks.length-1)]
+    }
+    return computer
 }

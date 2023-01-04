@@ -1,4 +1,4 @@
-import {Ship, Gameboard} from "./index"
+import {Ship, Gameboard, Player, createComputer} from "./index"
 
 test("test whether calling the hit method on a ship works", () =>{
     let boaty = Ship(4)
@@ -61,3 +61,24 @@ test("Check if all ships on a gameboard are sunk", ()=> {
     bikiniBottom.receiveAttack([1,1])
     expect(bikiniBottom.allShipsSunk).toBe(true)
 })
+
+test("Check if player attack on a square without a ship successfully registers a miss", ()=>{
+    let bikiniBottom = Gameboard()
+    let canoe = Ship(1)
+    bikiniBottom.placeShip(canoe, [3,3])
+    const Caleb = Player()
+    const shotFired = Caleb.attack(bikiniBottom, [4,6])
+    shotFired.enemyBoard.receiveAttack(shotFired.coords)
+    expect(bikiniBottom.misses.length).toBe(1)
+})
+
+test("Check if computer can successfully attack squares", ()=>{
+    let bikiniBottom = Gameboard()
+    let canoe = Ship(1)
+    bikiniBottom.placeShip(canoe, [3,3])
+    const hal9000 = createComputer()
+    const foo = hal9000.compAttack(bikiniBottom)
+    bikiniBottom.receiveAttack(foo)
+    expect(bikiniBottom.misses[0]).toEqual(foo)
+})
+
