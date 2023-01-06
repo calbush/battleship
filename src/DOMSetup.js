@@ -38,11 +38,46 @@ export const buildControlPanel = () => {
     
     const orientationBtn = document.createElement('button')
     orientationBtn.classList.add('orientationBtn')
+    orientationBtn.textContent = 'Flip piece'
     panel.appendChild(orientationBtn)
+
+    const shipHolder = document.createElement('div')
+    shipHolder.classList.add('shipHolder')
+    panel.appendChild(shipHolder)
+
+    const carrier = document.createElement('div')
+    carrier.classList.add('carrier')
+    carrier.classList.add('horizontal')
+    shipHolder.appendChild(carrier)
+    const carrierLength = 5
+    for(let i = 0; i < carrierLength; i++){
+        let shipSq = document.createElement('div')
+        shipSq.classList.add('shipSq')
+        carrier.appendChild(shipSq)
+    }
 }
 
-export const flipToHorizontal = () => {
-    vertical = document.querySelector('vertical')
-    vertical.classList.remove('vertical')
-    vertical.textContent = 'Flip Pieces Horizontal'
+export const flip = () => {
+    let carrier = document.querySelector('.carrier')
+    if(carrier.classList.contains('horizontal')){
+        carrier.classList.add('vertical')
+        carrier.classList.remove('horizontal')
+    } else {
+        carrier.classList.add('horizontal')
+        carrier.classList.remove('vertical')
+    }
+}
+
+export const addListeners = () => {
+    const flipBtn = document.querySelector('.orientationBtn')
+    flipBtn.addEventListener('click', flip)
+}
+
+export const makeBoard = () => {
+    const boardSquaresquantity = 100
+    const leftBoard = document.querySelector('.left')
+    for (let i = 0; i < boardSquaresquantity; i++){
+        let boardSq = document.createElement('div')
+        leftBoard.appendChild(boardSq)
+    }
 }
