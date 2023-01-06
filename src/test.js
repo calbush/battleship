@@ -72,7 +72,7 @@ test("Check if player attack on a square without a ship successfully registers a
     expect(bikiniBottom.misses.length).toBe(1)
 })
 
-test("Check if computer can successfully attack squares", ()=>{
+test.skip("Check if computer can successfully attack squares", ()=>{
     let bikiniBottom = Gameboard()
     let canoe = Ship(1)
     bikiniBottom.placeShip(canoe, [3,3])

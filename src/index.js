@@ -1,100 +1,30 @@
+
+import { buildControlPanel, initialDOMSetup } from "./DOMSetup"
+import "./styles.css"
+
 //Object prototype for Ship so we don't need to repeatedly create the same method
-const shipProto = {
-    hit(){
-        this.hits += 1
-        this.isSunk()
-    },
-    isSunk(){
-        if(this.hits === this.length){
-            this.sunk = true
-        }
-    }
+
+const setupGame = () => {
+    //player board ships and pieces
+    let coolGuy = Player()
+    let lakeMichigan = Gameboard()
+    //computer board ships and pieces
+
 }
 
+initialDOMSetup()
+buildControlPanel()
 
-const gameboardProto = {
-    placeShip(ship, ...coords){
-        this.ships.push({ship, coords})
-        
-    },
-    receiveAttack(attack){
-        //iterate through gameboard's ships property and check coords of each ship against attack
-        for(let i = 0; i < this.ships.length; i++){
-            for(let j = 0; j < this.ships[i].coords.length; j++){
-                if (this.ships[i].coords[j].toString() == attack.toString()){
-                    this.ships[i].ship.hit()
-                    this.checkSunkShips()
-                    return
-                }
-            }
-        }
-        this.misses.push(attack)
-    },
-    checkSunkShips(){
-        let sunkShipsCount = 0
-        for (let i = 0; i < this.ships.length; i++){
-            if (this.ships[i].ship.sunk == true){
-                sunkShipsCount += 1
-            }
-        }
-        if(sunkShipsCount === this.ships.length){
-            this.allShipsSunk = true
-        }
-    }
-}
+//immediately create ship objects and place them on corresponding player's boards
 
-const playerProto = {
-    attack(enemyBoard, coords){
-        return {enemyBoard, coords}
-    }
-}
+/*create 5 ships for player... from 5-1 in length... 
+create a DOM "ship" that is length(n) squares and associate it with the ship object
+player can drag their cursor across their gameboard cursor is on the 'middle' of ship
+when the player clicks...place that ship on their gameboard
+for DOM - create a button to flip ship X or Y
 
-export const Player = ()=>{
-    let playa = Object.create(playerProto)
-    return playa
-}
+*/
 
-export const Ship = (length) => {
-    let ship = Object.create(shipProto)
-    ship.length = length
-    ship.hits = 0
-    ship.sunk = false
-    return ship
-}
+//You can only attack enemy board
 
-export const Gameboard = () => {
-    let board = Object.create(gameboardProto)
-    board.shipCoords = []
-    board.ships = []
-    board.misses = []
-    board.allShipsSunk = false
-    return board
-}
-
-
-export const createComputer = () => {
-    const computer = Player()
-    computer.attacks = []
-    computer.compAttack = (board)=>{
-        let successfulAttack = false
-        //while computer hasn't already attacked 
-        generateSuccessfulAttack: while(!successfulAttack){
-            let attemptedX = Math.round(Math.random() * 10)
-            let attemptedY = Math.round(Math.random() * 10)
-            let attemptedCompAttack = ([attemptedX, attemptedY])
-            let attemptedCompAttackStr = attemptedCompAttack.toString()
-            //check if computer has already made an attack at square
-            for(let i = 0; i < computer.attacks.length; i++){
-                if(computer.attacks[i].toString() === attemptedCompAttackStr){
-                    continue generateSuccessfulAttack
-                }
-            }
-            computer.attacks.push(attemptedCompAttack)
-            successfulAttack = true
-            computer.attack(board, attemptedCompAttack)
-        }
-        successfulAttack = false
-        return computer.attacks[(computer.attacks.length-1)]
-    }
-    return computer
-}
+//computer moves after every player move
