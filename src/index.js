@@ -1,5 +1,5 @@
 
-import { addListeners, buildControlPanel, drag, initialDOMSetup, makeBoard } from "./DOMSetup"
+import { addListeners, buildControlPanel, initialDOMSetup, makeBoard} from "./DOMSetup"
 import "./styles.css"
 
 //Object prototype for Ship so we don't need to repeatedly create the same method
@@ -16,7 +16,6 @@ initialDOMSetup()
 buildControlPanel()
 makeBoard()
 addListeners()
-drag()
 
 //immediately create ship objects and place them on corresponding player's boards
 

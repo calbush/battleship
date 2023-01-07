@@ -49,14 +49,15 @@ export const buildControlPanel = () => {
     carrier.classList.add('horizontal')
     carrier.setAttribute('draggable', 'true')
     carrier.classList.add('draggable')
+
     shipHolder.appendChild(carrier)
-    //pass in length of the ship we're placing??
     const carrierLength = 5
     for(let i = 0; i < carrierLength; i++){
-        let shipSq = document.createElement('div')
-        shipSq.classList.add('shipSq')
-        carrier.appendChild(shipSq)
-    }
+    let shipSq = document.createElement('div')
+    shipSq.classList.add('shipSq')
+    carrier.appendChild(shipSq)
+}
+
 }
 
 export const flip = () => {
@@ -78,23 +79,41 @@ export const addListeners = () => {
 export const makeBoard = () => {
     const boardSquaresquantity = 100
     const leftBoard = document.querySelector('.left')
+    let foo = 0
     for (let i = 0; i < boardSquaresquantity; i++){
         let boardSq = document.createElement('div')
         boardSq.classList.add('boardSq')
+        boardSq.setAttribute('data-XY', [foo % 10, 9 - Math.floor(foo / 10)])
         leftBoard.appendChild(boardSq)
+        
+        foo += 1
+
+        boardSq.addEventListener('click', (e) => {
+            let firstCoord = e.target.dataset.xy
+            //**************************************** replace carrier
+            let shipNode = document.querySelector('.carrier')
+            let isVertical = shipNode.classList.contains('vertical')
+
+            document.querySelector(`[data-xy="${firstCoord}"]`).classList.add('blue')
+            let coordsCopy = firstCoord.split(',')
+
+            if (isVertical){
+                // ************************** replace 5 in for loop with ship length
+                //if coordsCopy Y is less than length of ship - 1  -- DONT EXECUTE
+                for (let i = 1; i < 5; i++){
+                    coordsCopy[1] = parseInt(coordsCopy[1]) - 1
+                    document.querySelector(`[data-XY="${coordsCopy}"]`).classList.add('blue')
+                }
+            } else {
+                //if coordsCopy X is greater than length of ship + 1
+                for (let i = 1; i < 5; i++){
+                    coordsCopy[0] = parseInt(coordsCopy[0]) + 1
+                    document.querySelector(`[data-XY="${coordsCopy}"]`).classList.add('blue')
+            }
+        }})
     }
 }
 
-export const drag = () => {
-    const draggable = document.querySelector('.draggable')
-    console.log(draggable)
-    
-    const containers = document.querySelectorAll('.boardSq')
-    containers.forEach(container => {
-        container.addEventListener('dragover', ()=>{
-            container.appendChild(draggable)
-        
-        })
-    })
-}
+
+
 
