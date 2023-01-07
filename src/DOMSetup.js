@@ -1,5 +1,4 @@
 
-
 export const initialDOMSetup = () => {
     const body = document.querySelector('body')
     const main = document.createElement('div')
@@ -48,7 +47,10 @@ export const buildControlPanel = () => {
     const carrier = document.createElement('div')
     carrier.classList.add('carrier')
     carrier.classList.add('horizontal')
+    carrier.setAttribute('draggable', 'true')
+    carrier.classList.add('draggable')
     shipHolder.appendChild(carrier)
+    //pass in length of the ship we're placing??
     const carrierLength = 5
     for(let i = 0; i < carrierLength; i++){
         let shipSq = document.createElement('div')
@@ -78,6 +80,21 @@ export const makeBoard = () => {
     const leftBoard = document.querySelector('.left')
     for (let i = 0; i < boardSquaresquantity; i++){
         let boardSq = document.createElement('div')
+        boardSq.classList.add('boardSq')
         leftBoard.appendChild(boardSq)
     }
 }
+
+export const drag = () => {
+    const draggable = document.querySelector('.draggable')
+    console.log(draggable)
+    
+    const containers = document.querySelectorAll('.boardSq')
+    containers.forEach(container => {
+        container.addEventListener('dragover', ()=>{
+            container.appendChild(draggable)
+        
+        })
+    })
+}
+
