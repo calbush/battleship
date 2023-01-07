@@ -50,20 +50,17 @@
 }
 
 .carrier.horizontal {
-    height: 40px;
-    width: 200px;
-    display: grid;
-    grid-template-columns: repeat(5, 40px);
+    display: flex;
 }
 
 .carrier.vertical {
-    height: 200px;
-    width: 40px;
-    display: grid;
-    grid-template-rows: repeat(5, 40px);
+    display: flex;
+    flex-direction: column;
 }
 
 .shipSq {
+    width: 40px;
+    height: 40px;
     background-color: red;
 }
 
@@ -74,6 +71,10 @@
     display: grid;
     grid-template-columns: repeat(10, auto);
     grid-template-rows: repeat(10, auto);
+}
+
+.blue {
+    background-color: blue;
 }
 
 .right {

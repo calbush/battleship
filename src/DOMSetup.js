@@ -43,18 +43,23 @@ export const buildControlPanel = () => {
     const shipHolder = document.createElement('div')
     shipHolder.classList.add('shipHolder')
     panel.appendChild(shipHolder)
+}
 
+export const createShip = (length) => {
     const carrier = document.createElement('div')
     carrier.classList.add('carrier')
     carrier.classList.add('horizontal')
     carrier.setAttribute('draggable', 'true')
     carrier.classList.add('draggable')
+
+    let shipHolder = document.querySelector('.shipHolder')
     shipHolder.appendChild(carrier)
-    //pass in length of the ship we're placing??
-    const carrierLength = 5
-    for(let i = 0; i < carrierLength; i++){
+
+    const shipLength = length
+    for(let i = 0; i < shipLength; i++){
         let shipSq = document.createElement('div')
         shipSq.classList.add('shipSq')
+        shipSq.setAttribute('data-shipSqIndex', i)
         carrier.appendChild(shipSq)
     }
 }
@@ -78,22 +83,37 @@ export const addListeners = () => {
 export const makeBoard = () => {
     const boardSquaresquantity = 100
     const leftBoard = document.querySelector('.left')
+    let foo = 0
     for (let i = 0; i < boardSquaresquantity; i++){
         let boardSq = document.createElement('div')
         boardSq.classList.add('boardSq')
+        boardSq.setAttribute('data-coords', [foo % 10, 9 - Math.floor(foo/10)])
         leftBoard.appendChild(boardSq)
+        foo += 1
     }
 }
 
-export const drag = () => {
-    const draggable = document.querySelector('.draggable')
-    console.log(draggable)
-    
+
+export const drag = () => {  
     const containers = document.querySelectorAll('.boardSq')
     containers.forEach(container => {
-        container.addEventListener('dragover', ()=>{
-            container.appendChild(draggable)
         
+        container.addEventListener('dragover', (e)=>{
+            let start = e.target.dataset.coords.split(',')
+            let rightOne = [...start]
+            rightOne[0] = parseInt(start[0]) + 1
+            let rightOne2 = rightOne.join(',')
+            document.querySelector(`[data-coords="${rightOne2}"]`).classList.add('blue')
+            container.classList.add('blue')
+
+        })
+        container.addEventListener('dragleave', (e) => {
+            let start = e.target.dataset.coords.split(',')
+            let rightOne = [...start]
+            rightOne[0] = parseInt(start[0]) + 1
+            let rightOne2 = rightOne.join(',')
+            document.querySelector(`[data-coords="${rightOne2}"]`).classList.remove('blue')
+            container.classList.remove('blue')
         })
     })
 }
