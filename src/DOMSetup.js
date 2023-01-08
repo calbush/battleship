@@ -87,33 +87,36 @@ export const makeBoard = () => {
         leftBoard.appendChild(boardSq)
         
         foo += 1
-
-        boardSq.addEventListener('click', (e) => {
-            let firstCoord = e.target.dataset.xy
-            //**************************************** replace carrier
-            let shipNode = document.querySelector('.carrier')
-            let isVertical = shipNode.classList.contains('vertical')
-
-            document.querySelector(`[data-xy="${firstCoord}"]`).classList.add('blue')
-            let coordsCopy = firstCoord.split(',')
-
-            if (isVertical){
-                // ************************** replace 5 in for loop with ship length
-                //if coordsCopy Y is less than length of ship - 1  -- DONT EXECUTE
-                for (let i = 1; i < 5; i++){
-                    coordsCopy[1] = parseInt(coordsCopy[1]) - 1
-                    document.querySelector(`[data-XY="${coordsCopy}"]`).classList.add('blue')
-                }
-            } else {
-                //if coordsCopy X is greater than length of ship + 1
-                for (let i = 1; i < 5; i++){
-                    coordsCopy[0] = parseInt(coordsCopy[0]) + 1
-                    document.querySelector(`[data-XY="${coordsCopy}"]`).classList.add('blue')
-            }
-        }})
     }
 }
 
-
-
+export const prepBoardforNextShip = (shipLength) => {
+    //create shi obj with shipLength
+    //change to currentship from carrier
+    let currentShip = document.querySelector('.carrier')
+    let unshippedBoardSqs = document.querySelectorAll('.boardSq')
+    unshippedBoardSqs.forEach((boardSq) => {
+        if(!(boardSq.classList.contains('blue'))){
+            boardSq.addEventListener('click', (e) => {
+                let isVertical = currentShip.classList.contains('vertical')
+                let firstCoord = e.target.dataset.xy
+                document.querySelector(`[data-xy="${firstCoord}"]`).classList.add('blue')
+                let coordsCopy = firstCoord.split(',')
+    
+                if (isVertical){
+                    //if coordsCopy Y is less than length of ship - 1  -- DONT EXECUTE
+                    for (let i = 1; i < shipLength; i++){
+                        coordsCopy[1] = parseInt(coordsCopy[1]) - 1
+                        document.querySelector(`[data-XY="${coordsCopy}"]`).classList.add('blue')
+                    }
+                } else {
+                    for (let i = 1; i < shipLength; i++){
+                        coordsCopy[0] = parseInt(coordsCopy[0]) + 1
+                        document.querySelector(`[data-XY="${coordsCopy}"]`).classList.add('blue')
+                }
+            }
+            })
+        }
+    })
+}
 
